@@ -1,11 +1,13 @@
 const { Book, User } = require('../models');
 
+
+
 const resolvers = {
   Query: {
-    books: async () => {
+    book: async () => {
       return Book.find({});
     },
-    users: async () => {
+    user: async () => {
       return User.find({});
     },
   },

@@ -1,14 +1,8 @@
 const express = require('express');
-const { ApolloServer } = require('@apollo/server'); 
-
-// Import ApolloServer and expressMiddleware
+const { ApolloServer } = require('@apollo/server');
 const path = require('path');
-
-// Imports the two parts of a GraphQL schema
 const { typeDefs, resolvers } = require('./schemas');
-
 const db = require('./config/connection');
-const { expressMiddleware } = require('@apollo/server/express4');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -18,8 +12,10 @@ const server = new ApolloServer({
   resolvers,
 });
 
-// Apply Apollo Server as middleware to the Express app
-server.applyMiddleware({ app });
+// Manually set up Apollo Server middleware
+server.start().then(() => {
+  server.applyMiddleware({ app });
+});
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
