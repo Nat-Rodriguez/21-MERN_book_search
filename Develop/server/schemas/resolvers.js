@@ -5,10 +5,17 @@ const { Book, User } = require('../models');
 const resolvers = {
   Query: {
     book: async () => {
-      return Book.find({});
+      try {
+        const books = await Book.find({});
+        console.log("BOOK:",books)
+        return books;
+      } catch (error) {
+        console.error('Error querying books:', error);
+        throw new Error('Failed to retrieve books');
+      }
     },
-    user: async () => {
-      return User.find({});
+    user: async (parent, { username }) => {
+      return User.findOne({ username }).populate('books');
     },
   },
   Mutation: {

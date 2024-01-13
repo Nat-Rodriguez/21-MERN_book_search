@@ -1,35 +1,48 @@
 import { gql } from '@apollo/client';
 
 export const LOGIN_USER = gql`
-  mutation LoginUser($/* your variables here */) {
-    // Assuming loginUser mutation setup
-    loginUser(/* your variables here */)
-    // Add any additional data you want to retrieve
+  mutation login($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      token
+      user {
+        _id
+        username
+      }
+    }
   }
 `;
 
 export const ADD_USER = gql`
-  mutation AddUser($/* your variables here */) {
-    // Assuming addUser mutation setup
-    addUser(/* your variables here */)
-    // Add any additional data you want to retrieve
+  mutation addUser($username: String!, $email: String!, $password: String!) {
+    addUser(username: $username, email: $email, password: $password) {
+      token
+      user {
+        _id
+        username
+      }
+    }
   }
 `;
 
 export const SAVE_BOOK = gql`
-  mutation SaveBook($/* your variables here */) {
-    // Assuming saveBook mutation setup
-    saveBook(/* your variables here */)
-    // Add any additional data you want to retrieve
+  mutation saveBook($input: BookInput!) {
+    authors: [String]
+    description: String
+    title: String!
+    bookId: String!
+    image: String
+    link: String
+    )
   }
 `;
 
 export const REMOVE_BOOK = gql`
-  mutation RemoveBook($/* your variables here */) {
-    // Assuming removeBook mutation setup
-    removeBook(/* your variables here */)
-    // Add any additional data you want to retrieve
+  mutation removeBook($bookId: String!) {
+    authors: [String]
+    description: String
+    title: String!
+    bookId: String!
+    image: String
+    link: String
   }
 `;
-
-// Export other mutations if needed
