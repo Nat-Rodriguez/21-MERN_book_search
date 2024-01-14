@@ -1,3 +1,4 @@
+const { GraphQLError } = require('graphql');
 const jwt = require('jsonwebtoken');
 
 // set token secret and expiration date
@@ -27,6 +28,8 @@ module.exports = {
       //if the token is missing or invalid, it throws an error.
       throw new Error('Invalid token');
     }
+
+    return req;
   },
   signToken: function ({ username, email, _id }) {
     const payload = { username, email, _id };
