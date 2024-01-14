@@ -25,13 +25,8 @@ const SearchBooks = () => {
   const { loading, data } = useQuery(GET_ME);
 
    useEffect(() => {
-    if (!loading) {
-      const savedBooks = data?.me.savedBooks || [];
-      console.log(savedBooks, "saved");
-      const newArray = savedBooks.map((element) => element.bookId);
-      return () => saveBookIds(newArray);
-    }
-  }, []);
+    return () => saveBookIds(savedBookIds);
+  });
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -68,9 +63,7 @@ const SearchBooks = () => {
   const handleSaveBook = async (bookId) => {
     console.log('Attempting to save book with ID:', bookId);
   
-    const bookToSave = searchedBooks && searchedBooks.find((book) => book.bookId === bookId);
-  
-    console.log('bookToSave:', bookToSave);
+    const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
   
     const token = Auth.loggedIn() ? Auth.getToken() : null;
   
@@ -91,8 +84,7 @@ const SearchBooks = () => {
       }
   
       // If book successfully saves to the user's account, save book id to state
-      const bookList = getSavedBookIds();
-      setSavedBookIds([...bookList, bookToSave.bookId]);
+      setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error('Error saving book:', err);
     }
