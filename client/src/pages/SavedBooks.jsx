@@ -8,7 +8,8 @@ import {
   Col
 } from 'react-bootstrap';
 
-import { GET_ME, REMOVE_BOOK } from '../utils/queries';  // Import GET_ME and REMOVE_BOOK queries
+import { GET_ME } from '../utils/queries';  // Import GET_ME query
+import { REMOVE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
