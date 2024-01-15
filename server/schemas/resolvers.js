@@ -1,5 +1,5 @@
 const { Book, User } = require('../models');
-
+const { signToken } = require('../utils/auth');
 
 
 const resolvers = {
@@ -21,11 +21,13 @@ const resolvers = {
   Mutation: {
     addUser: async (_, args) => {
       const user = await User.create(args);
-      return user;
+      const token = signToken(user)
+
+      return {user, token} ;
     },
-    saveBook: async (_, { userId, bookId }) => {
+    saveBook: async (_, { bookId }, context) => {
       // Find the user based on userId
-      const user = await User.findById(userId);
+      const user = await User.findById(context.user._id);
 
       if (!user) {
         throw new Error('User not found!');
