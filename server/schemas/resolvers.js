@@ -20,11 +20,28 @@ const resolvers = {
   },
   Mutation: {
     addUser: async (_, args) => {
-      const user = await User.create(args);
+      const user = await User.create({username, email, password});
       const token = signToken(user)
 
       return {user, token} ;
     },
+    login: async (parent, { email, password }) => {
+      const profile = await User.findOne({ email });
+
+      if (!profile) {
+        throw AuthenticationError;
+      }
+
+      const correctPw = await profile.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw AuthenticationError;
+      }
+      
+      const token = signToken(profile);
+      return { token, profile };
+    },
+    
     saveBook: async (_, { bookId }, context) => {
       // Find the user based on userId
       const user = await User.findById(context.user._id);
