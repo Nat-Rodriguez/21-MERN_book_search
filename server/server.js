@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 // Import the ApolloServer class and expressMiddleware helper function
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
@@ -26,6 +27,13 @@ const startApolloServer = async () => {
   app.use('/graphql', expressMiddleware(server, {
     context: authMiddleware
   }));
+
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+    });
+  
 
   db.once('open', () => {
     app.listen(PORT, () => {
